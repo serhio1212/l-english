@@ -1,0 +1,43 @@
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+}
+
+.row {
+  min-height: 20px;
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  background-color: #f4f4f4;
+  box-sizing: border-box;
+  padding: 0 5px;
+  font-size: 14px;
+  line-height: normal;
+  cursor: pointer;
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  /* overflow: hidden; */
+}
+
+
+.row:hover {
+  /* background-color: #f9f9f9; */
+  background-color: #dddddd;
+}
+
+textarea.row {
+  font-family: inherit;
+  width: 99%;
+  height: auto;
+  min-height: 20px;
+  padding: 0 5px;
+  font-size: 14px;
+  line-height: normal;
+}
