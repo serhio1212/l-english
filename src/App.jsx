@@ -1,18 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef} from 'react';
 import './App.css';
 
-const NUM_ROWS = Math.floor(window.innerHeight / 20); // number of 20px rows
+const NUM_ROWS = Math.floor(window.innerHeight / 20);
 
 function App() {
+
   const [rows, setRows] = useState(
     Array.from({ length: NUM_ROWS }, () => ({ text: '', isEditing: false, countEnter: 3 }))
   );
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  const selectedIndexRef = useRef(0);
+
+  useEffect(() => {
+    selectedIndexRef.current = selectedIndex;
+  }, [selectedIndex]);
+
+
+  useEffect(() => {
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
 console.log(rows);
+
   const handleDivClick = (index) => {
     setRows((prev) =>
       prev.map((row, i) =>
-        i === index ? { ...row, isEditing: true} : row
+         i === index ? { ...row, isEditing: true} : row
       )
     );
   };
@@ -27,9 +44,32 @@ console.log(rows);
   };
 
   const handleKeyDown = (e, index) => {
+      const currentIndex = selectedIndexRef.current;
+
     if (e.key === 'Escape') {
-      e.target.blur(); // triggers the onBlur event
+      e.target.blur();
     }
+    if (e.key === 'ArrowDown') {
+      setSelectedIndex((prev) =>
+        { const next = prev < rows.length - 1 ? prev + 1 : prev;
+          console.log("ArrowDown to row:", next);
+          return next;}
+      );
+      
+    }
+    if (e.key === 'ArrowUp') {
+      setSelectedIndex((prev) => {const next = prev > 0 ? prev - 1 : prev;
+      console.log("ArrowUp to row:", next);
+      return next;})
+    }
+    if (e.key === 'Enter') {
+      setRows((prev) =>
+        prev.map((row, i) =>
+          i === currentIndex ? { ...row, isEditing: true } : row
+        )
+      );
+    }
+
   };
 
 
@@ -52,6 +92,10 @@ console.log(rows);
           <textarea
             key={index}
             className="row"
+            style={{
+              backgroundColor: index === selectedIndex ? "#4caf50" : "#f0f0f0",
+              color: index === selectedIndex ? "#fff" : "#000",
+            }}
             rows={row.countEnter}
             value={row.text}
             onChange={(e) => handleTextChange(e, index)}
@@ -63,6 +107,10 @@ console.log(rows);
           <div
             key={index}
             className="row"
+            style={{
+              backgroundColor: index === selectedIndex ? "#4caf50" : "#f0f0f0",
+              color: index === selectedIndex ? "#fff" : "#000",
+            }}
             onClick={() => handleDivClick(index)}
           >
             {row.text}
