@@ -95,6 +95,7 @@ console.log(rows);
             style={{
               backgroundColor: index === selectedIndex ? "#4caf50" : "#f0f0f0",
               color: index === selectedIndex ? "#fff" : "#000",
+              textAlign: 0 === index%2 ? "left" : "right",
             }}
             rows={row.countEnter}
             value={row.text}
@@ -110,6 +111,7 @@ console.log(rows);
             style={{
               backgroundColor: index === selectedIndex ? "#4caf50" : "#f0f0f0",
               color: index === selectedIndex ? "#fff" : "#000",
+              textAlign: 0 === index%2 ? "left" : "right",
             }}
             onClick={() => handleDivClick(index)}
           >
